@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TimeZoneSettings"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/backIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="5dp"
+            android:src="@drawable/back_icon_pixelated"
+            app:tint="@color/primary_color" />
+
+        <TextView
+            android:id="@+id/textViewurdu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dogicapixelbold"
+            android:text="Settings"
+            android:textAlignment="center"
+            android:textColor="@color/primary_color"
+            android:textSize="20sp"
+            android:paddingRight="8dp"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="106dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/pixel_frame_border"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/select_time_zone_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dogicapixel"
+            android:paddingStart="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="Select Time Zone: "
+            android:textColor="@color/accent_color" />
+
+        <TextView
+            android:id="@+id/selected_time_zone_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/pixel_frame_border"
+            android:drawableEnd="@drawable/drop_down_pixelated"
+            android:drawableTint="@color/primary_color"
+            android:fontFamily="@font/dogicapixelbold"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:paddingEnd="20dp"
+            android:text="Asia/Karachi"
+            android:textAlignment="center"
+            android:textColor="@color/accent_color"
+            android:textSize="13dp"
+            tools:ignore="RtlCompat" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/timeZoneSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_marginTop="10dp"
+            android:outlineAmbientShadowColor="@color/primary_color"
+            android:outlineSpotShadowColor="@color/primary_color">
+
+        </androidx.appcompat.widget.AppCompatSpinner>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

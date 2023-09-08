@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="@color/black">
+
+        <TextView
+            android:id="@+id/prayername"
+            android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+            android:paddingBottom="5dp"
+        android:text="Prayer Name"
+        android:textColor="@color/primary_color"
+        android:fontFamily="@font/dogicabold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/prayertime_starting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_color"
+                android:fontFamily="@font/dogicabold"
+                android:text="03:03 PM"
+                android:textSize="10sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" - "
+                android:textColor="@color/primary_color"
+                android:fontFamily="@font/dogicabold"
+                android:textSize="8sp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp" />
+
+            <TextView
+                android:id="@+id/prayertime_ending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_color"
+                android:textSize="10sp"
+                android:fontFamily="@font/dogicapixelbold"
+                android:text="04:05 PM" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
