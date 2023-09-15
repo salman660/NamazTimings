@@ -3,13 +3,14 @@ package com.apptic.namaztimings;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
@@ -31,13 +32,18 @@ public class TimeZoneSettings extends AppCompatActivity {
     private AppCompatSpinner timeZoneSpinner;
     private ImageView backIcon;
     private TextView selected_time_zone_txt;
+
+    private EditText searchbox;
     private SharedPreferences sharedPreferences;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_time_zone_settings);
+        setContentView(R.layout.activity_settings);
 
+        searchbox = findViewById(R.id.searchbox);
         timeZoneSpinner = findViewById(R.id.timeZoneSpinner);
         backIcon = findViewById(R.id.backIcon);
         selected_time_zone_txt = findViewById(R.id.selected_time_zone_txt);
@@ -59,6 +65,15 @@ public class TimeZoneSettings extends AppCompatActivity {
             public void onClick(View v) {
                 // Open the timezone spinner
                 timeZoneSpinner.performClick();
+            }
+        });
+
+        // Add an OnClickListener to the selected_time_zone_txt TextView
+        searchbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open the timezone spinner
+                selected_time_zone_txt.performClick();
             }
         });
 
@@ -84,6 +99,37 @@ public class TimeZoneSettings extends AppCompatActivity {
             // Default to the first time zone if the preference is empty
             timeZoneSpinner.setSelection(0);
         }
+
+        // Add a TextWatcher to the searchbox EditText
+        searchbox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for this implementation
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Handle text changes here
+                String searchText = charSequence.toString().toLowerCase();
+                List<String> filteredTimeZones = new ArrayList<>();
+
+                for (String timeZone : definedTimeZones) {
+                    if (timeZone.toLowerCase().contains(searchText)) {
+                        filteredTimeZones.add(timeZone);
+                    }
+                }
+
+                // Update the adapter with the filtered list
+                adapter.clear();
+                adapter.addAll(filteredTimeZones);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Not needed for this implementation
+            }
+        });
 
         // Handle item selection in the Spinner
         timeZoneSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

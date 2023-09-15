@@ -11,14 +11,15 @@
             android:id="@+id/topLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <!-- App Icon (centered) -->
@@ -26,51 +27,72 @@
                     android:id="@+id/appicon"
                     android:layout_width="0dp"
                     android:layout_height="90dp"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="50dp"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="50dp"
                     android:layout_marginTop="16dp"
+                    android:layout_weight="1"
                     app:srcCompat="@drawable/namaz_logo" />
 
                 <!-- Settings Icon (extreme right) -->
                 <ImageView
-                    android:paddingTop="10dp"
                     android:id="@+id/settingsicon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
                     android:layout_gravity="end|right"
-                app:srcCompat="@drawable/pixelated_settings_icon_48dp"
-                app:tint="@color/accent_color" />
+                    android:layout_marginRight="20dp"
+                    android:paddingTop="10dp"
+                    app:srcCompat="@drawable/pixelated_settings_icon_48dp"
+                    app:tint="@color/accent_color" />
             </LinearLayout>
-
-
 
 
             <TextView
                 android:id="@+id/textViewurdu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/q_pixia"
                 android:text="نماز اوقات"
+                android:textAlignment="center"
                 android:textColor="@color/primary_color"
                 android:textSize="40sp" />
 
-            <TextView
-                android:id="@+id/currentPrayerName"
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                android:layout_gravity="center_horizontal"
+            <LinearLayout
+                android:layout_width="284dp"
+                android:layout_height="58dp"
+                android:layout_gravity="center"
                 android:background="@drawable/pixel_frame_border"
                 android:backgroundTint="@color/accent_color"
-                android:fontFamily="@font/dogicapixelbold"
-                android:padding="12dp"
-                android:text="Maghrib"
-                android:textAlignment="center"
-                android:textColor="@color/primary_color" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/currentPrayerName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="41dp"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/dogicapixelbold"
+                    android:padding="12dp"
+                    android:text="Maghrib"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textColor="@color/primary_color" />
+
+                <TextView
+                    android:id="@+id/currentPrayerending"
+                    android:layout_width="wrap_content"
+                    android:visibility="gone"
+                    android:layout_height="41dp"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/dogica"
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:text="Ending in 50min"
+                    android:textAlignment="center"
+                    android:textColor="@color/primary_color"
+                    android:textSize="8dp" />
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/dateTextView"
@@ -173,7 +195,7 @@
             android:id="@+id/allprayers"
             android:layout_width="284dp"
             android:padding="15dp"
-            android:layout_height="wrap_content"
+            android:layout_height="145dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/accent_color"

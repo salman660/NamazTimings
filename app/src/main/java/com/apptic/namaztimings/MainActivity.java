@@ -261,10 +261,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getCurrentPrayerName() {
-        Coordinates coordinates = new Coordinates(29.3544, 71.6911); // Replace with your coordinates
+        // Get the saved time zone from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String savedTimeZone = sharedPreferences.getString("SelectedTimeZone", "");
+
+        // Get the saved latitude and longitude from SharedPreferences
+        String savedLatitude = sharedPreferences.getString("SelectedLatitude", "");
+        String savedLongitude = sharedPreferences.getString("SelectedLongitude", "");
+
+        // Set the time zone for the formatter
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
+        if (!savedTimeZone.isEmpty()) {
+            formatter.setTimeZone(TimeZone.getTimeZone(savedTimeZone));
+        } else {
+            // Set a default time zone (e.g., "Asia/Karachi") if the saved time zone is empty
+            formatter.setTimeZone(TimeZone.getTimeZone("Asia/Karachi"));
+        }
+
+        double latitude, longitude;
+
+        if (!savedLatitude.isEmpty() && !savedLongitude.isEmpty()) {
+            // Use the saved coordinates if available
+            latitude = Double.parseDouble(savedLatitude);
+            longitude = Double.parseDouble(savedLongitude);
+        } else {
+            // Use dummy coordinates if saved coordinates are not available
+            latitude = 0.0;  // Replace with your dummy latitude
+            longitude = 0.0; // Replace with your dummy longitude
+        }
+
+        Coordinates coordinates = new Coordinates(latitude, longitude);
         DateComponents dateComponents = DateComponents.from(new Date());
         CalculationMethod calculationMethod = CalculationMethod.KARACHI;
-        HighLatitudeRule highLatitudeRule = HighLatitudeRule.MIDDLE_OF_THE_NIGHT;
 
         PrayerTimes prayerTimes = new PrayerTimes(coordinates, dateComponents, calculationMethod.getParameters());
 
@@ -301,7 +329,6 @@ public class MainActivity extends AppCompatActivity {
         // If no prayer is found (e.g., after Isha), return the last prayer name
         return prayerNames[prayerTimesDates.length - 1];
     }
-
 
 
 
