@@ -23,7 +23,7 @@ Namaz Timings App is an open-source application that provides accurate prayer ti
 ## Installation
 
 1. Clone the repository to your local machine:
-git clone https://github.com/yourusername/namaz-timings-app.git
+git clone https://github.com/salman660/namaz-timings-app.git
 2. Install the required dependencies:npm install
 3. Start the application: npm start
 
@@ -40,7 +40,7 @@ git clone https://github.com/yourusername/namaz-timings-app.git
 Contributions are welcome! If you would like to contribute to this project, please follow these steps:
 
 1. Fork the repository.
-2. Create a new branch for your feature or bug fix: `git checkout -b feature/your-feature-name`
+2. Create a new branch for your feature or bug fix: `git checkout -b feature/master`
 3. Make your changes and commit them: `git commit -m 'Add feature/fix bug'`
 4. Push to your branch: `git push origin feature/your-feature-name`
 5. Create a pull request to the `main` branch of the original repository.
