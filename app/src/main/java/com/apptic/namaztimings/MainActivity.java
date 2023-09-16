@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String NOTIFICATION_CHANNEL_ID = "NamazTimingsChannel";
     private static final int DND_REQUEST_CODE = 7333; // Use any unique value
     private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 1001;
-    private static final int PRAYER_NOTIFICATION_ID = 2;
+    private static final int PRAYER_NOTIFICATION_ID = 400;
 
     private boolean isAnimationRunning = true; // Initially set to true to start animation
 
@@ -89,6 +89,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Calculate prayer times for a whole month (you can implement this part)
+        List<Date> prayerTimesForTheMonth = calculatePrayerTimesForMonth();
+
+        // Call the method to schedule prayer time notifications
+        schedulePrayerTimeNotifications(prayerTimesForTheMonth);
+
 
         settingsicon = findViewById(R.id.settingsicon);
 
@@ -217,6 +224,86 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    private List<Date> calculatePrayerTimesForMonth() {
+        List<Date> prayerTimesForMonth = new ArrayList<>();
+
+        // Get the saved time zone from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String savedTimeZone = sharedPreferences.getString("SelectedTimeZone", "");
+
+        // Get the saved latitude and longitude from SharedPreferences
+        String savedLatitude = sharedPreferences.getString("SelectedLatitude", "");
+        String savedLongitude = sharedPreferences.getString("SelectedLongitude", "");
+
+        // Set the time zone for the formatter
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
+        if (!savedTimeZone.isEmpty()) {
+            formatter.setTimeZone(TimeZone.getTimeZone(savedTimeZone));
+        } else {
+            // Set a default time zone (e.g., "Asia/Karachi") if the saved time zone is empty
+            formatter.setTimeZone(TimeZone.getTimeZone("Asia/Karachi"));
+        }
+
+        double latitude, longitude;
+
+        if (!savedLatitude.isEmpty() && !savedLongitude.isEmpty()) {
+            // Use the saved coordinates if available
+            latitude = Double.parseDouble(savedLatitude);
+            longitude = Double.parseDouble(savedLongitude);
+        } else {
+            // Use dummy coordinates if saved coordinates are not available
+            latitude = 0.0;  // Replace with your dummy latitude
+            longitude = 0.0; // Replace with your dummy longitude
+        }
+
+        CalculationMethod calculationMethod = CalculationMethod.KARACHI;
+
+        // Create a calendar instance for the current date
+        Calendar calendar = Calendar.getInstance();
+
+        // Loop through each day of the month
+        for (int day = 1; day <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); day++) {
+            // Set the date to the current day
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+
+            // Calculate prayer times for the current day
+            DateComponents dateComponents = DateComponents.from(calendar.getTime());
+            PrayerTimes prayerTimes = new PrayerTimes(new Coordinates(latitude, longitude), dateComponents, calculationMethod.getParameters());
+
+            // Add the prayer times for the current day to the list
+            prayerTimesForMonth.add(prayerTimes.fajr);
+            prayerTimesForMonth.add(prayerTimes.sunrise);
+            prayerTimesForMonth.add(prayerTimes.dhuhr);
+            prayerTimesForMonth.add(prayerTimes.asr);
+            prayerTimesForMonth.add(prayerTimes.maghrib);
+            prayerTimesForMonth.add(prayerTimes.isha);
+        }
+
+        return prayerTimesForMonth;
+    }
+
+    private void schedulePrayerTimeNotifications(List<Date> prayerTimesForMonth) {
+        // Get the AlarmManager
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        // Create a BroadcastReceiver to handle the prayer time notifications
+        Intent intent = new Intent(this, PrayerNotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        // Schedule notifications for each prayer time
+        for (int i = 0; i < prayerTimesForMonth.size(); i++) {
+            Date prayerTime = prayerTimesForMonth.get(i);
+
+            // Calculate the time difference between the current prayer time and now
+            long timeDifferenceMillis = prayerTime.getTime() - System.currentTimeMillis();
+
+            if (timeDifferenceMillis > 0) {
+                // Schedule the notification for this prayer time
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeDifferenceMillis, pendingIntent);
+            }
+        }
+    }
 
     private Date getNextPrayerTime() {
         Coordinates coordinates = new Coordinates(29.3544, 71.6911); // Replace with your coordinates
